@@ -6,7 +6,7 @@ import { site } from "@/config/site";
 import { organizationSchema, websiteSchema } from "@/lib/seo/jsonld";
 import { Analytics } from "@/components/analytics/Analytics";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SiteFooter } from "@/components/layout/SiteFooter";
+import { ConditionalFooter } from "@/components/layout/ConditionalFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 const poppins = Poppins({
@@ -67,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main" className="flex-1">
           {children}
         </main>
-        <SiteFooter />
+        <ConditionalFooter />
         <JsonLd schema={[organizationSchema(), websiteSchema()]} />
         <Analytics />
       </body>

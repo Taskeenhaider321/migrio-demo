@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" role="img" aria-label="Migrio explainer video poster">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2F2A80"/>
+      <stop offset="55%" stop-color="#4E46B4"/>
+      <stop offset="100%" stop-color="#3A3396"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.35"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <circle cx="190" cy="140" r="280" fill="#ffffff" opacity="0.06"/>
+  <circle cx="1120" cy="620" r="240" fill="#FF532F" opacity="0.14"/>
+
+  <!-- journey arc -->
+  <path d="M150 520 C 330 230, 620 180, 810 330 C 940 432, 1020 400, 1130 230"
+        fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="6"
+        stroke-linecap="round" stroke-dasharray="2 26"/>
+
+  <!-- origin pin -->
+  <g transform="translate(150 520)">
+    <path d="M0 18s32-26 32-50A32 32 0 1 0-32-32c0 24 32 50 32 50Z" fill="#FF532F"/>
+    <circle cx="0" cy="-32" r="11.5" fill="#fff"/>
+  </g>
+
+  <!-- destination pin -->
+  <g transform="translate(1130 230)">
+    <path d="M0 18s32-26 32-50A32 32 0 1 0-32-32c0 24 32 50 32 50Z" fill="#0B82B8"/>
+    <circle cx="0" cy="-32" r="11.5" fill="#fff"/>
+  </g>
+
+  <rect width="1280" height="720" fill="url(#fade)"/>
+
+  <g font-family="Poppins, Segoe UI, Helvetica, Arial, sans-serif" fill="#ffffff">
+    <text x="96" y="612" font-size="27" font-weight="600" letter-spacing="4" opacity="0.72">PLACEHOLDER POSTER</text>
+    <text x="96" y="664" font-size="44" font-weight="600">How Migrio works in 90 seconds</text>
+  </g>
+</svg>

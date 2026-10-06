@@ -1,0 +1,68 @@
+/*
+ * Migrio design tokens.
+ *
+ * Colour values are copied verbatim (as HSL triplets) from the Migrio Hub
+ * stylesheet at staging-hub.migrio.com so the marketing site and the product
+ * render identical brand colours. Change a value here and it changes
+ * everywhere, including the Tailwind utilities generated from it.
+ */
+
+@theme {
+  /* ---- Brand ---- */
+  --color-primary: hsl(244.36 44% 49.02%);
+  --color-primary-dark: hsl(243.49 50.59% 33.33%);
+  --color-primary-darkest: hsl(240 100% 20%);
+  --color-primary-press: hsl(244.5 42.55% 81.57%);
+  --color-primary-light: hsl(254.55 100% 93.53%);
+  --color-primary-tint: hsl(254.9 66.67% 97.65%);
+
+  --color-accent: hsl(10.36 100% 59.22%);
+  --color-accent-dark: hsl(9.6 81.4% 47%);
+  --color-accent-tint: hsl(10.36 100% 96%);
+
+  --color-ocean: hsl(197.74 87.85% 35.49%);
+  --color-ocean-tint: hsl(197.74 84% 95%);
+
+  /* ---- Semantic ---- */
+  --color-verified: hsl(195.51 84% 65.69%);
+  --color-rated: hsl(38.82 100% 50%);
+  --color-success: hsl(150 37% 45%);
+  --color-success-tint: hsl(138 76% 97%);
+  --color-success-ink: hsl(163 88% 20%);
+  --color-warning: hsl(24.53 77.68% 54.31%);
+  --color-warning-tint: hsl(48 96% 89%);
+  --color-warning-ink: hsl(25 66% 43%);
+  --color-danger: hsl(0 65.08% 50.59%);
+
+  /* ---- Surfaces ---- */
+  --color-canvas: #ffffff;
+  --color-surface: rgb(247 247 250);
+  --color-surface-strong: rgb(241 241 245);
+  --color-field: hsl(251.25 100% 96.86%);
+
+  /* ---- Ink ---- */
+  --color-title: hsl(240 27.78% 14.12%);
+  --color-body: hsl(0 0% 25.88%);
+  --color-muted: hsl(216 17% 51%);
+  --color-subtle: hsl(0 0% 63.92%);
+
+  /* ---- Lines ---- */
+  --color-line: hsl(240 15% 92%);
+  --color-line-strong: hsl(0 0% 87.06%);
+  --color-line-brand: hsl(252 61.42% 88.82%);
+
+  /* ---- Type ---- */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* ---- Radius (hub base radius is 0.75rem) ---- */
+  --radius-brand: 0.75rem;
+
+  /* ---- Elevation ---- */
+  --shadow-card: 0 1px 2px 0 rgb(26 26 46 / 0.04), 0 8px 24px -12px rgb(26 26 46 / 0.12);
+  --shadow-lift: 0 2px 4px 0 rgb(26 26 46 / 0.04), 0 18px 40px -16px rgb(26 26 46 / 0.18);
+  --shadow-float: 0 24px 60px -20px rgb(47 42 128 / 0.28);
+
+  /* ---- Layout ---- */
+  --container-site: 75rem;
+}

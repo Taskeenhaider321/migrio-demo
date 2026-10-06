@@ -325,6 +325,10 @@ export function Assessment() {
     );
   }
 
+  const stepReady =
+    validateStep(stepId, answers) === null &&
+    (stepId !== "score" || (profile !== null && profileError === null));
+
   return (
     <form
       onSubmit={onSubmit}
@@ -359,7 +363,7 @@ export function Assessment() {
         <h2
           ref={headingRef}
           tabIndex={-1}
-          className="mt-2 text-2xl leading-tight outline-none sm:text-3xl"
+          className="mt-3 text-[1.75rem] font-bold leading-[1.15] tracking-tight text-title outline-none sm:text-4xl"
         >
           {stepId === "score" && profile ? scoreStatus(profile.band) : titles[stepId]}
         </h2>
@@ -420,7 +424,8 @@ export function Assessment() {
           ) : null}
           <button
             type="submit"
-            className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-brand bg-primary px-4 py-2.5 text-center text-sm font-semibold leading-snug text-white shadow-[0_8px_20px_-10px_rgb(78_70_180/0.9)] sm:text-base"
+            disabled={!stepReady}
+            className="cta-shimmer inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-brand bg-primary px-4 py-2.5 text-center text-sm font-semibold leading-snug text-white shadow-[0_10px_24px_-10px_rgb(78_70_180/0.95)] disabled:cursor-not-allowed disabled:bg-primary/40 disabled:shadow-none sm:text-base"
           >
             {stepId === "score"
               ? "Get detailed eligibility report"
@@ -667,7 +672,7 @@ function DestinationStep({
             <select
               value={extended ? destination : ""}
               onChange={(event) => onSingle(event.target.value, "destination")}
-              className="h-12 w-full appearance-none rounded-brand border border-line-strong bg-canvas px-3 pr-10 text-base text-title"
+              className="h-12 w-full appearance-none rounded-2xl border-2 border-line-strong bg-canvas px-3 pr-10 text-base text-title"
             >
               <option value="" disabled>
                 Choose a country
@@ -707,7 +712,7 @@ function ChoiceCards({
   return (
     <fieldset>
       {legend ? (
-        <legend className="mb-3 text-sm font-semibold text-title">{legend}</legend>
+        <legend className="mb-3 text-base font-bold text-title">{legend}</legend>
       ) : null}
       <div className={cn("grid gap-2", columns === 2 && "sm:grid-cols-2")}>
         {choices.map((choice) => (
@@ -740,11 +745,11 @@ function ChoiceCard({
   return (
     <label
       className={cn(
-        "flex min-h-12 cursor-pointer items-center gap-2.5 rounded-xl border px-3 py-2 text-left transition-colors",
+        "flex min-h-12 cursor-pointer items-center gap-2.5 rounded-2xl border-2 px-3 py-2 text-left transition-colors",
         "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary",
         checked
           ? "border-primary bg-primary-tint shadow-card"
-          : "border-line bg-canvas hover:border-primary/40",
+          : "border-line-strong bg-canvas hover:border-primary",
         className,
       )}
     >
@@ -764,8 +769,8 @@ function ChoiceCard({
       </span>
       <span
         className={cn(
-          "grid size-5 shrink-0 place-items-center rounded-full border",
-          checked ? "border-primary bg-primary text-white" : "border-line-strong",
+          "grid size-6 shrink-0 place-items-center rounded-full border-2",
+          checked ? "border-primary bg-primary text-white" : "border-primary/50 bg-canvas",
         )}
       >
         {checked ? <Icon name="check" className="size-3" /> : null}
@@ -789,7 +794,7 @@ function ChipGroup({
 }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-title">{legend}</legend>
+      <legend className="mb-3 text-base font-bold text-title">{legend}</legend>
       <div className="flex flex-wrap gap-2">
         {choices.map((choice) => {
           const checked = value === choice.id;
@@ -797,7 +802,7 @@ function ChipGroup({
             <label
               key={choice.id}
               className={cn(
-                "inline-flex min-h-11 cursor-pointer items-center rounded-full border px-3.5 text-sm font-semibold",
+                "inline-flex min-h-11 cursor-pointer items-center rounded-full border-2 px-3.5 text-sm font-semibold",
                 "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary",
                 checked
                   ? "border-primary bg-primary text-white"
@@ -834,7 +839,7 @@ function CheckboxGroup({
 }) {
   return (
     <fieldset>
-      <legend className="mb-3 text-sm font-semibold text-title">{legend}</legend>
+      <legend className="mb-3 text-base font-bold text-title">{legend}</legend>
       <div className="grid gap-2">
         {choices.map((choice) => {
           const checked = selected.includes(choice.id);
@@ -842,7 +847,7 @@ function CheckboxGroup({
             <label
               key={choice.id}
               className={cn(
-                "flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border px-3.5",
+                "flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl border-2 px-3.5",
                 "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary",
                 checked ? "border-primary bg-primary-tint" : "border-line bg-canvas",
               )}
@@ -892,7 +897,7 @@ function CountryField({
           id={`${fieldId}-${id}`}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="h-12 w-full appearance-none rounded-brand border border-line-strong bg-canvas px-3 pr-10 text-base text-title"
+          className="h-12 w-full appearance-none rounded-2xl border-2 border-line-strong bg-canvas px-3 pr-10 text-base text-title"
         >
           <option value="" disabled>
             Choose a country
@@ -933,6 +938,7 @@ function DetailsStep({
           label="First name"
           name="given-name"
           autoComplete="given-name"
+          required
           value={answers.firstName ?? ""}
           onChange={(firstName) => patch({ firstName })}
         />
@@ -940,6 +946,7 @@ function DetailsStep({
           label="Last name"
           name="family-name"
           autoComplete="family-name"
+          required
           value={answers.lastName ?? ""}
           onChange={(lastName) => patch({ lastName })}
         />
@@ -949,6 +956,7 @@ function DetailsStep({
         name="email"
         type="email"
         autoComplete="email"
+        required
         value={answers.email ?? ""}
         onChange={(email) => patch({ email })}
       />
@@ -968,6 +976,7 @@ function TextField({
   onChange,
   type = "text",
   autoComplete,
+  required = false,
 }: {
   label: string;
   name: string;
@@ -975,19 +984,29 @@ function TextField({
   onChange: (value: string) => void;
   type?: "text" | "email";
   autoComplete: string;
+  required?: boolean;
 }) {
   const id = useId();
   return (
     <label htmlFor={id} className="block">
-      <span className="mb-1.5 block text-sm font-semibold text-title">{label}</span>
+      <span className="mb-1.5 block text-sm font-semibold text-title">
+        {label}
+        {required ? (
+          <abbr title="required" className="ml-0.5 text-danger no-underline">
+            *
+          </abbr>
+        ) : null}
+      </span>
       <input
         id={id}
         name={name}
         type={type}
         autoComplete={autoComplete}
+        required={required}
+        aria-required={required || undefined}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 w-full rounded-brand border border-line-strong bg-canvas px-3 text-base text-title"
+        className="h-12 w-full rounded-2xl border-2 border-line-strong bg-canvas px-3 text-base text-title"
       />
     </label>
   );
@@ -1028,6 +1047,52 @@ function ScoreStep({
   );
 }
 
+const POPPER_BITS = [
+  { dx: "-72px", dy: "-36px", color: "bg-accent", delay: "40ms" },
+  { dx: "76px", dy: "-28px", color: "bg-primary", delay: "80ms" },
+  { dx: "-58px", dy: "48px", color: "bg-primary", delay: "120ms" },
+  { dx: "64px", dy: "52px", color: "bg-accent", delay: "60ms" },
+  { dx: "8px", dy: "-78px", color: "bg-primary", delay: "0ms" },
+  { dx: "-8px", dy: "78px", color: "bg-accent", delay: "100ms" },
+] as const;
+
+function inboxUrl(email: string): string {
+  const domain = email.split("@")[1]?.toLowerCase() ?? "";
+  if (domain === "gmail.com" || domain === "googlemail.com") return "https://mail.google.com";
+  if (domain === "outlook.com" || domain === "hotmail.com" || domain === "live.com") {
+    return "https://outlook.live.com/mail/0/";
+  }
+  if (domain === "yahoo.com" || domain === "ymail.com") return "https://mail.yahoo.com";
+  if (domain === "icloud.com" || domain === "me.com" || domain === "mac.com") {
+    return "https://www.icloud.com/mail";
+  }
+  if (domain === "proton.me" || domain === "protonmail.com") return "https://mail.proton.me";
+  return `mailto:${email}`;
+}
+
+function MailIllustration() {
+  return (
+    <div className="relative">
+      {POPPER_BITS.map((bit) => (
+        <span
+          key={bit.dx + bit.dy}
+          aria-hidden
+          className={cn("mail-popper", bit.color)}
+          style={{ ["--dx" as string]: bit.dx, ["--dy" as string]: bit.dy, animationDelay: bit.delay }}
+        />
+      ))}
+      <svg viewBox="0 0 160 140" className="mail-pop h-36 w-40" role="img" aria-label="">
+        <circle cx="80" cy="70" r="58" className="fill-primary-tint" />
+        <circle cx="118" cy="28" r="8" className="fill-accent/80" />
+        <circle cx="36" cy="36" r="5" className="fill-primary/30" />
+        <rect x="38" y="46" width="84" height="58" rx="12" className="fill-primary" />
+        <path d="M38 58 80 84l42-26" fill="none" className="stroke-white" strokeWidth="3" strokeLinejoin="round" />
+        <path d="M50 96h28" className="stroke-white/70" strokeWidth="3" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
 function SentScreen({
   email,
   emailSent,
@@ -1040,31 +1105,50 @@ function SentScreen({
   onResend: () => void;
 }) {
   const delivered = emailSent || resendState === "resent";
+  const inbox = inboxUrl(email);
+  const opensWebmail = inbox.startsWith("http");
 
   return (
-    <div className="mx-auto flex min-h-[calc(100dvh-4.5rem)] w-full max-w-md flex-col justify-center px-5 py-16">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+    <div className="mx-auto flex min-h-[calc(100dvh-4.5rem)] w-full max-w-md flex-col items-center justify-center px-5 py-16 text-center">
+      <div aria-hidden="true">
+        <MailIllustration />
+      </div>
+      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.14em] text-primary">
         Check your mailbox
       </p>
-      <h2 className="mt-3 text-3xl">
-        {delivered ? "Your report is on its way" : "We couldn’t send it just now"}
+      <h2 className="mt-3 text-3xl font-bold tracking-tight text-title sm:text-4xl">
+        {delivered ? "Your report is on its way" : "We just sent it."}
       </h2>
-      <p className="mt-3 text-muted">
+      {/* <p className="mt-3 max-w-sm text-muted">
         {delivered
           ? `We sent a secure link to ${email}. Open it to view your full report and download the PDF. If it isn’t in your inbox, check spam.`
           : `We tried to email ${email}. Resend the link, or open the report on your dashboard while you wait.`}
-      </p>
+      </p> */}
       {resendState === "error" ? (
         <p role="alert" className="mt-4 text-sm font-medium text-danger">
           The email didn’t go out. Try resending.
         </p>
       ) : null}
-      <div className="mt-8 flex flex-col gap-3">
+      <a
+        href="/"
+        className="cta-shimmer mt-8 inline-flex h-12 w-full max-w-xs items-center justify-center rounded-brand bg-primary px-4 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgb(78_70_180/0.95)]"
+      >
+        Back to home
+      </a>
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+        <a
+          href={inbox}
+          target={opensWebmail ? "_blank" : undefined}
+          rel={opensWebmail ? "noopener noreferrer" : undefined}
+          className="font-semibold text-primary underline-offset-4 hover:underline"
+        >
+          Open MailBox
+        </a>
         <button
           type="button"
           onClick={onResend}
           disabled={resendState === "sending"}
-          className="inline-flex h-12 items-center justify-center rounded-brand bg-primary px-4 text-sm font-semibold text-white disabled:opacity-60"
+          className="font-semibold text-primary underline-offset-4 hover:underline disabled:opacity-60"
         >
           {resendState === "sending"
             ? "Sending…"
@@ -1072,15 +1156,9 @@ function SentScreen({
               ? "Sent again"
               : "Resend email"}
         </button>
-        <a
-          href="/eligibility/dashboard"
-          className="inline-flex h-12 items-center justify-center rounded-brand border border-line-strong bg-canvas px-4 text-sm font-semibold text-title"
-        >
+        <a href="/eligibility/dashboard" className="font-semibold text-title underline-offset-4 hover:underline">
           Open dashboard
         </a>
-        <p className="text-center text-xs text-muted">
-          Temporary button, until the email link opens the report on its own.
-        </p>
       </div>
     </div>
   );
